@@ -1,4 +1,4 @@
-// RAISE AI — Landing Page Scripts
+// RAISE — Landing Page Scripts
 
 // Nav scroll effect
 const nav = document.getElementById('nav');
@@ -35,8 +35,8 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
 // Scroll animations
 const animateElements = document.querySelectorAll(
-  '.problem__card, .approach__step, .tier, .outcomes__card, ' +
-  '.fit__card, .about__quote-card, .problem__callout, .services__bottom-cta'
+  '.problem__card, .approach__step, .step, .outcomes__card, ' +
+  '.founder__inner, .services__bottom-cta, .quiz__card'
 );
 
 const observer = new IntersectionObserver((entries) => {
@@ -63,3 +63,119 @@ window.addEventListener('load', () => {
     setTimeout(() => { fill.style.width = '85%'; }, 300);
   }
 });
+
+// --- AI READINESS QUIZ ---
+(function() {
+  const questions = document.querySelectorAll('.quiz__question');
+  const progressBar = document.getElementById('quizProgressBar');
+  const progressText = document.getElementById('quizProgressText');
+  const resultEl = document.getElementById('quizResult');
+  const gradeCircle = document.getElementById('quizGradeCircle');
+  const gradeLetter = document.getElementById('quizGradeLetter');
+  const resultTitle = document.getElementById('quizResultTitle');
+  const resultDesc = document.getElementById('quizResultDesc');
+  const retakeBtn = document.getElementById('quizRetake');
+
+  let currentQ = 0;
+  let scores = [];
+  const total = questions.length;
+
+  // Grade definitions
+  const grades = {
+    A: {
+      title: 'AI-Ready Leader',
+      desc: 'Your business is well-positioned to implement advanced AI systems. You have the foundation in place. Let\'s talk about scaling your AI capabilities and driving even greater results.'
+    },
+    B: {
+      title: 'Strong Foundation',
+      desc: 'You\'re ahead of most businesses. With a structured approach, you could see significant ROI from AI within weeks. A strategy session would help prioritize your next moves.'
+    },
+    C: {
+      title: 'Getting Started',
+      desc: 'You\'re aware of AI\'s potential but haven\'t fully tapped into it yet. That\'s exactly where most of our clients start. A quick call could save you months of trial and error.'
+    },
+    D: {
+      title: 'Early Stage',
+      desc: 'There\'s a big opportunity here. Your business has untapped potential for AI-driven efficiency gains. Let\'s identify the quick wins that can make an immediate difference.'
+    },
+    F: {
+      title: 'Ground Floor',
+      desc: 'You\'re not alone. Most small businesses are in the same spot. The good news? Starting now means you can leapfrog competitors who are also still figuring it out.'
+    }
+  };
+
+  function getGrade(score) {
+    if (score >= 17) return 'A';
+    if (score >= 13) return 'B';
+    if (score >= 9) return 'C';
+    if (score >= 5) return 'D';
+    return 'F';
+  }
+
+  function updateProgress() {
+    const pct = ((currentQ + 1) / total) * 100;
+    progressBar.style.width = pct + '%';
+    progressText.textContent = 'Question ' + (currentQ + 1) + ' of ' + total;
+  }
+
+  function showResult() {
+    const totalScore = scores.reduce((a, b) => a + b, 0);
+    const grade = getGrade(totalScore);
+    const info = grades[grade];
+
+    // Hide questions + progress
+    questions.forEach(q => q.classList.remove('active'));
+    progressBar.parentElement.style.display = 'none';
+    progressText.style.display = 'none';
+
+    // Show result
+    gradeCircle.setAttribute('data-grade', grade);
+    gradeLetter.textContent = grade;
+    resultTitle.textContent = info.title;
+    resultDesc.textContent = info.desc;
+    resultEl.classList.add('active');
+  }
+
+  function reset() {
+    currentQ = 0;
+    scores = [];
+    resultEl.classList.remove('active');
+    progressBar.parentElement.style.display = '';
+    progressText.style.display = '';
+    questions.forEach(q => {
+      q.classList.remove('active');
+      q.querySelectorAll('.quiz__option').forEach(o => o.classList.remove('selected'));
+    });
+    questions[0].classList.add('active');
+    updateProgress();
+  }
+
+  // Handle option clicks
+  questions.forEach((question, qi) => {
+    question.querySelectorAll('.quiz__option').forEach(option => {
+      option.addEventListener('click', () => {
+        // Visual feedback
+        question.querySelectorAll('.quiz__option').forEach(o => o.classList.remove('selected'));
+        option.classList.add('selected');
+
+        // Record score
+        scores[qi] = parseInt(option.getAttribute('data-score'));
+
+        // Advance after brief delay
+        setTimeout(() => {
+          if (currentQ < total - 1) {
+            questions[currentQ].classList.remove('active');
+            currentQ++;
+            questions[currentQ].classList.add('active');
+            updateProgress();
+          } else {
+            showResult();
+          }
+        }, 350);
+      });
+    });
+  });
+
+  // Retake
+  retakeBtn.addEventListener('click', reset);
+})();
