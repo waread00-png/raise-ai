@@ -319,9 +319,6 @@ img { max-width: 100%; display: block; }
   box-shadow: var(--shadow-lg);
   border: 1px solid var(--color-border-light);
 }
-.hero__card:first-child {
-  grid-column: 1 / -1;
-}
 .hero__card-icon {
   width: 48px;
   height: 48px;
@@ -1022,6 +1019,47 @@ img { max-width: 100%; display: block; }
 .quiz__grade-circle[data-grade="F"] { border-color: #991b1b; background: #fee2e2; }
 .quiz__grade-circle[data-grade="F"] .quiz__grade-letter { color: #991b1b; }
 
+/* Quiz recommendation box */
+.quiz__recommendation {
+  background: var(--accent-lighter);
+  border: 1px solid var(--accent-light);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  margin: 24px auto;
+  max-width: 480px;
+  text-align: left;
+}
+.quiz__rec-label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+.quiz__rec-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.quiz__rec-desc {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+.quiz__rec-cta-text {
+  font-size: 14px;
+  color: var(--color-text-muted);
+  margin: 20px 0 12px;
+}
+.quiz__rec-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
 @media (max-width: 640px) {
   .quiz__card { padding: 32px 24px; }
   .quiz__question h3 { font-size: 18px; }
@@ -1101,6 +1139,11 @@ img { max-width: 100%; display: block; }
   transform: translateY(-2px) !important;
   box-shadow: 0 8px 30px rgba(0,0,0,0.25) !important;
   background: #f0f7ff !important;
+}
+.cta__reach-out {
+  font-size: 15px;
+  color: var(--color-text-secondary);
+  margin-bottom: 16px;
 }
 .cta__note {
   font-size: 14px;

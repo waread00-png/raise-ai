@@ -1,4 +1,4 @@
-// RAISE — Landing Page Scripts
+// RAIG — Landing Page Scripts
 
 // Nav scroll effect
 const nav = document.getElementById('nav');
@@ -55,14 +55,6 @@ animateElements.forEach(el => {
   observer.observe(el);
 });
 
-// Animate hero progress bar on load
-window.addEventListener('load', () => {
-  const fill = document.querySelector('.hero__card-fill');
-  if (fill) {
-    fill.style.width = '0%';
-    setTimeout(() => { fill.style.width = '85%'; }, 300);
-  }
-});
 
 // --- AI READINESS QUIZ ---
 (function() {
@@ -80,27 +72,37 @@ window.addEventListener('load', () => {
   let scores = [];
   const total = questions.length;
 
-  // Grade definitions
+  // Grade definitions with package recommendations
   const grades = {
     A: {
       title: 'AI-Ready Leader',
-      desc: 'Your business is well-positioned to implement advanced AI systems. You have the foundation in place. Let\'s talk about scaling your AI capabilities and driving even greater results.'
+      desc: 'Your business is well-positioned to implement advanced AI systems. You have the foundation in place.',
+      rec: 'AI Transformation ($2,000+) or Ongoing AI Partnership',
+      recDesc: 'You\'re ready to go all-in. A full transformation package or ongoing partnership will help you scale what\'s working and build new systems across your operations.'
     },
     B: {
       title: 'Strong Foundation',
-      desc: 'You\'re ahead of most businesses. With a structured approach, you could see significant ROI from AI within weeks. A strategy session would help prioritize your next moves.'
+      desc: 'You\'re ahead of most businesses. With a structured approach, you could see significant ROI from AI within weeks.',
+      rec: 'AI Build ($1,000)',
+      recDesc: 'You have the basics down. The AI Build package will implement custom systems, train your team, and turn your existing momentum into measurable results.'
     },
     C: {
       title: 'Getting Started',
-      desc: 'You\'re aware of AI\'s potential but haven\'t fully tapped into it yet. That\'s exactly where most of our clients start. A quick call could save you months of trial and error.'
+      desc: 'You\'re aware of AI\'s potential but haven\'t fully tapped into it yet. That\'s exactly where most of our clients start.',
+      rec: 'AI Foundation ($500)',
+      recDesc: 'A structured roadmap and initial implementations will give you clarity on where AI fits and get real systems running in your business.'
     },
     D: {
       title: 'Early Stage',
-      desc: 'There\'s a big opportunity here. Your business has untapped potential for AI-driven efficiency gains. Let\'s identify the quick wins that can make an immediate difference.'
+      desc: 'There\'s a big opportunity here. Your business has untapped potential for AI-driven efficiency gains.',
+      rec: 'AI Opportunity Audit ($250)',
+      recDesc: 'A 2-hour deep-dive session will uncover the specific AI opportunities in your business and give you a clear picture of where to start.'
     },
     F: {
       title: 'Ground Floor',
-      desc: 'You\'re not alone. Most small businesses are in the same spot. The good news? Starting now means you can leapfrog competitors who are also still figuring it out.'
+      desc: 'You\'re not alone. Most small businesses are in the same spot. The good news? Starting now means you can get ahead of competitors who are also still figuring it out.',
+      rec: 'Free 30-Minute Diagnostic Call',
+      recDesc: 'Let\'s start with a conversation. We\'ll identify 2-3 ways AI can immediately impact your business and map out next steps. No cost, no obligation.'
     }
   };
 
@@ -133,6 +135,13 @@ window.addEventListener('load', () => {
     gradeLetter.textContent = grade;
     resultTitle.textContent = info.title;
     resultDesc.textContent = info.desc;
+
+    // Show recommendation
+    const recTitle = document.getElementById('quizRecTitle');
+    const recDesc = document.getElementById('quizRecDesc');
+    if (recTitle) recTitle.textContent = info.rec;
+    if (recDesc) recDesc.textContent = info.recDesc;
+
     resultEl.classList.add('active');
   }
 
